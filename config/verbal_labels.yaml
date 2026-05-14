@@ -1,0 +1,12 @@
+# Verbal risk labels (multi-label). Values in datasets: 0 or 1 per key.
+names:
+  - neutral_conflict
+  - insult_humiliation
+  - explicit_threat
+  - coercion_harassment
+
+notes:
+  neutral_conflict: "Разовый конфликт без доминирования; не bullying intent."
+  insult_humiliation: "Унижение или оскорбление адресанта."
+  explicit_threat: "Явная угроза насилием/вредом."
+  coercion_harassment: "Принуждение, преследование, систематическое давление."

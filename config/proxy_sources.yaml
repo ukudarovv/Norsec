@@ -1,0 +1,36 @@
+proxy_sources:
+  # Загрузка через Hugging Face `datasets` (публичный датасет — проверить лицензию перед выкладкой на Hub!)
+  hf_tweet_eval_hate:
+    type: huggingface
+    path: tweet_eval
+    name: hate
+    license_note: See dataset card — research use typical; remap labels to verbal schema.
+    target_labels_hint:
+      - insult_humiliation
+      - neutral_conflict
+
+  hf_imdb:
+    type: huggingface
+    path: imdb
+    license_note: Not toxicity; useful only for pipeline smoke tests (map all to neutral_conflict).
+    target_labels_hint:
+      - neutral_conflict
+
+  # Ручной / Kaggle — потребует скачивания внешнего CSV и --local-parquet или --csv-dir в скрипте
+  manual_jigsaw_toxic_comments:
+    type: manual
+    description: >-
+      Скачайте Kaggle "jigsaw-toxic-comment-classification-challenge" локально и укажите путь через
+      переменную окружения PROXY_LOCAL_DIR с train.csv; скрипт смержит столбцы toxic types -> multihot.
+    url: https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge
+    columns_map:
+      text: comment_text
+
+  # Открытые речевые корпуса (ASR таргеты, не текстовые угрозы — для смешанного ingestion отдельной веткой)
+  mozilla_common_voice_ru_stub:
+    type: huggingface
+    path: mozilla-foundation/common_voice_17_0
+    name: ru
+    license_note: CC-0 speech; текст — транскрипты для ASR, не toxicity labels.
+
+asr_baselines_documented_in: docs/ASR_BASELINE_AND_WER_PROTOCOL.md

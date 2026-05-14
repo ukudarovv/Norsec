@@ -1,0 +1,5 @@
+# RTSP / live worker (Phase 1)
+camera:
+  target_fps: 10
+  reconnect_delay_sec: 5
+  max_failures: 5

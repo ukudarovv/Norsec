@@ -1,0 +1,11 @@
+/checkpoints/
+/data/processed/
+/data/incidents.json
+frontend/node_modules/
+frontend/dist/
+__pycache__/
+*.pyc
+.Python
+.env
+.verbal_cache/
+wandb/

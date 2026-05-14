@@ -1,0 +1,25 @@
+# Phase 2 — analytics / tracking / suppression
+social:
+  assumed_fps: 30
+  close_distance_px: 120
+  rapid_approach_px_per_sec: 180
+  following_min_sec: 4
+  surrounding_min_people: 3
+  crowding_zone_radius_px: 200
+  crowding_min_people: 4
+  blocking_angle_deg: 35
+
+pose:
+  keypoint_confidence: 0.35
+  fast_arm_px_per_sec: 250
+  raised_hand_margin_px: 30
+
+suppression:
+  min_signal_persistence_sec: 2
+  min_track_confidence: 0.35
+  single_frame_spike_penalty: 0.4
+
+tracking:
+  max_positions: 120
+  track_ttl_sec: 30
+  cleanup_interval_sec: 5

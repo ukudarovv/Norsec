@@ -1,0 +1,22 @@
+# CPU/GPU image for phase-1 pipeline (YOLO + ByteTrack + YOLO-pose).
+# docker build -f bullying_ai/deployment/Dockerfile.phase1 -t bullying-phase1 .
+
+FROM python:3.11-slim
+
+WORKDIR /app
+ENV PYTHONUNBUFFERED=1
+ENV PIP_NO_CACHE_DIR=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt requirements-bullying.txt /app/
+RUN pip install --upgrade pip && pip install -r /app/requirements-bullying.txt
+
+COPY bullying_ai /app/bullying_ai
+
+# Smoke import (downloads weights on first real run, not here)
+RUN python -c "import bullying_ai; print('bullying_ai OK')"
+
+CMD ["python", "-c", "print('Use: from bullying_ai import PersonDetector, PeopleTracker, PoseEstimator')"]

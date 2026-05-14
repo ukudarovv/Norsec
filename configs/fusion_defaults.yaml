@@ -1,0 +1,9 @@
+# Live fusion stabilization (Phase 1)
+fusion:
+  suspect_threshold: 0.50
+  incident_threshold: 0.75
+  cooldown_sec: 20
+  min_persistence_sec: 2
+  hysteresis_alpha: 0.35
+  # минимальный score для «кандидата» в офлайн fuse_window (совместимость с анализом файлов)
+  offline_candidate_min_score: 0.50

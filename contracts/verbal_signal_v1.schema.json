@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.local/verbal_signal_v1.json",
+  "title": "VerbalSignalV1",
+  "description": "Контракт выходного сигнала текстовой/ASR модели до late-fusion сервиса (не содержит video/pose ключей). Версионирован по semantic version в поле model_version_semver.",
+  "type": "object",
+  "required": ["schema_id", "model_version_semver", "utterance_span", "transcript_norm", "text_scores"],
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "verbal.signal.v1"
+    },
+    "producer": {
+      "type": "string",
+      "description": "Имя сервиса-источника, например asr-gateway:prod"
+    },
+    "model_hf_repo": {
+      "type": "string",
+      "description": "Полное имя репозитория HF, если модель там",
+      "examples": ["username/verbal-multilabel-mbert"]
+    },
+    "model_version_semver": {
+      "type": "string",
+      "examples": ["0.4.2"]
+    },
+    "checkpoint_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "utterance_span": {
+      "type": "object",
+      "required": ["start_ms", "end_ms"],
+      "properties": {
+        "track_pseudo_id": {
+          "type": "string",
+          "description": "Псевдоним трека лица/микрофона без ПДн"
+        },
+        "start_ms": { "type": "integer", "minimum": 0 },
+        "end_ms": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "lang_hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["lang", "score"],
+        "properties": {
+          "lang": { "type": "string", "examples": ["ru", "kz", "mixed"] },
+          "score": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      },
+      "minItems": 1
+    },
+    "transcript_norm": {
+      "type": "string",
+      "description": "Нормализованный текст транскрипции"
+    },
+    "asr_quality": {
+      "type": "object",
+      "properties": {
+        "snr_estimate_db": { "type": "number" },
+        "confidence_mean": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "text_scores": {
+      "type": "object",
+      "description": "Значения вероятностей (sigmoid logits) после калибровки",
+      "required": [
+        "neutral_conflict",
+        "insult_humiliation",
+        "explicit_threat",
+        "coercion_harassment"
+      ],
+      "properties": {
+        "neutral_conflict": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "insult_humiliation": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "explicit_threat": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "coercion_harassment": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "token_highlights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["start_char", "end_char", "label"],
+        "properties": {
+          "start_char": { "type": "integer", "minimum": 0 },
+          "end_char": { "type": "integer", "minimum": 0 },
+          "label": { "type": "string" },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "uncertainty_flag": {
+      "type": "boolean",
+      "description": "True если ASR/модель сомневаются (низкая уверенность, code-switch)."
+    },
+    "debug": {
+      "type": "object",
+      "description": "Опциональные технические признаки, не использовать в UX без санитизации"
+    }
+  },
+  "additionalProperties": false
+}

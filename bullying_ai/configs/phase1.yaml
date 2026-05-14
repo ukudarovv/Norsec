@@ -1,0 +1,23 @@
+# Phase 1 — person detection, ByteTrack, pose (YOLO backends).
+# Paths are Ultralytics hub identifiers (weights download on first use).
+
+detection:
+  model: yolo11n.pt
+  conf_threshold: 0.35
+  iou_threshold: 0.5
+  person_class_id: 0
+
+tracking:
+  backend: bytetrack
+  trajectory_maxlen: 60
+  lost_track_buffer: 30
+  minimum_matching_threshold: 0.8
+  frame_rate: 30.0
+
+pose:
+  backend: yolo_pose
+  model: yolo11n-pose.pt
+  conf_threshold: 0.25
+  crop_padding_ratio: 0.12
+
+# Future: rtmpose via MMPose / OpenPose — swap PoseEstimator implementation only.
